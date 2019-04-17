@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Page2";
+}
+
+<h2>Page2</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Passenger Name</th>
+            <th>Meal</th>
+            <th>Surcharge</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: seats">
+        <tr>
+            <td data-bind="text: name"></td>
+            <td data-bind="text: meal().mealName"></td>
+            <td data-bind="text: meal().price"></td>
+        </tr>
+    </tbody>
+
+    <button data-bind="click: addSeat">Reserve another seat</button>
+</table>
+
+<script>
+
+        //class to represent a row in the seat reservations grid
+        function SeatReservation(name, initialMeal) {
+            var self = this;
+            self.name = name,
+            self.meal = ko.observable(initialMeal);
+        }
+
+        //overall viewmodel for this screen, along with initial state
+        function ReservationsViewModel() {
+            var self = this;
+
+            //non-editable catalog data (this would typically be loaded from the db)
+            self.availableMeals = [
+                {mealName: "Standard", price: 0},
+                {mealName: "Premium", price: 34.95},
+                {mealName: "Ultimate", price: 290}
+            ];
+
+            //editable data
+            self.seats = ko.observableArray([
+                new SeatReservation("Homer", self.availableMeals[0]),
+                new SeatReservation("Marge", self.availableMeals[0]),
+                new SeatReservation("Bart", self.availableMeals[2]),
+                new SeatReservation("Lisa", self.availableMeals[0]),
+                new SeatReservation("Maggie", self.availableMeals[0])
+            ]);
+
+            //operation to add new reservation
+            self.addSeat = function(){
+                self.seats.push(new SeatReservation('Abe', self.availableMeals[1]))
+            }
+        }
+
+        ko.applyBindings(new ReservationsViewModel());
+</script>
+

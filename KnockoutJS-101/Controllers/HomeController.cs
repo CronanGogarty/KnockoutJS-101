@@ -26,5 +26,15 @@ namespace KnockoutJS_101.Controllers
 
             return View();
         }
+
+        public ActionResult Page1()
+        {
+            return View();
+        }
+
+        public ActionResult Page2()
+        {
+            return View();
+        }
     }
 }
